@@ -83,7 +83,7 @@ class RabbitMQProductionBot(AsyncRunnable):
         await asyncio.gather(self.publish_pkg_to_rabbitmq(), self._receiver.start(), self._producer.start())
 
     # keep the usage compatible with Bot interface, so ignored pylint warning
-    # pylint: disable-next=duplicate-code
+    # pylint: disable=duplicate-code
     def run(self):
         """run the rabbitmq bot in blocking mode"""
         if not self.loop:
@@ -92,3 +92,4 @@ class RabbitMQProductionBot(AsyncRunnable):
             self.loop.run_until_complete(self.start())
         except KeyboardInterrupt:
             log.info('see you next time')
+    # pylint: enable=duplicate-code
