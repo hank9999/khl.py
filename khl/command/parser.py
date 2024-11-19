@@ -1,5 +1,4 @@
 """parser: component used in command args handling, convert string token to fit the command signature"""
-import asyncio
 import copy
 import inspect
 import logging
@@ -28,8 +27,8 @@ def _get_param_type(param: Union[inspect.Parameter, None]):
     return param.annotation
 
 
-def _wrap_one_param_func(func: Callable) -> Callable:
-    def wrapper(msg: Message, client: Client, token: str):
+def _wrap_one_param_func(func: Callable) -> Callable:  # pylint: disable=unused-argument
+    def wrapper(msg: Message, client: Client, token: str):  # pylint: disable=unused-argument
         return func(token)
     return wrapper
 
