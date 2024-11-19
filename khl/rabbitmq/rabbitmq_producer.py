@@ -1,11 +1,9 @@
 import asyncio
 import logging
-from typing import Dict, List
+from typing import Dict
 import aio_pika
 from aio_pika.abc import AbstractExchange, AbstractRobustConnection
 from . import RabbitMQ
-from .._types import MessageTypes
-from ..client import TypeHandler
 from ..cert import Cert
 from ..receiver import WebhookReceiver, WebsocketReceiver
 from ..interface import AsyncRunnable
