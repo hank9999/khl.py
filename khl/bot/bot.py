@@ -6,7 +6,8 @@ from pathlib import Path
 from typing import Dict, Callable, List, Optional, Union, Coroutine, IO
 
 from .. import AsyncRunnable  # interfaces
-from .. import Cert, HTTPRequester, RateLimiter, Receiver, WebhookReceiver, WebsocketReceiver, Gateway, Client  # net related
+from .. import Cert, HTTPRequester, RateLimiter, Gateway, Client  # net related
+from .. import Receiver, WebhookReceiver, WebsocketReceiver  # net related, receivers
 from .. import MessageTypes, EventTypes, SlowModeTypes, SoftwareTypes  # types
 from .. import User, Channel, PublicChannel, Guild, Event, Message  # concepts
 from ..command import CommandManager
