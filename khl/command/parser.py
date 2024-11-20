@@ -27,8 +27,8 @@ def _get_param_type(param: Union[inspect.Parameter, None]):
     return param.annotation
 
 
-def _wrap_one_param_func(func: Callable) -> Callable:  # pylint: disable=unused-argument
-    def wrapper(msg: Message, client: Client, token: str):  # pylint: disable=unused-argument
+def _wrap_one_param_func(func: Callable) -> Callable:
+    def wrapper(_msg: Message, _client: Client, token: str):
         return func(token)
     return wrapper
 
