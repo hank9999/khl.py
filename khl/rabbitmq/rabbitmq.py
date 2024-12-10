@@ -25,7 +25,6 @@ class RabbitMQ:
         self._heartbeat = heartbeat
         self._login = login
         self._password = password
-        self._key_digits = key_digits
         self.compress = compress
         # check aes is 128, 192 or 256
         if key_digits not in AES.key_size:
