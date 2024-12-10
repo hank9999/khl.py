@@ -16,7 +16,8 @@ class RabbitMQ:
     _queue: AbstractRobustQueue = None
     _exchange: AbstractExchange = None
     def __init__(self, login: str, password: str, host: str = '127.0.0.1', port: int = 5672, queue: str = 'kook',
-                 qos: int = 10, heartbeat: int = 30, key: str = '', key_digits: int = 16, compress: bool = True):
+                 qos: int = 10, heartbeat: int = 30, key: str = '', salt: str = '', key_digits: int = 32,
+                 compress: bool = True):
         self._host = host
         self._port = port
         self.queue = queue
@@ -30,12 +31,21 @@ class RabbitMQ:
         if key_digits not in AES.key_size:
             raise ValueError(f'rabbitmq key_digits: {key_digits} not in {AES.key_size}')
         if key != '':
-            key_encoded = key.encode('utf-8').ljust(key_digits, b'\x00')
+            key_string = key
         else:
             # if rabbitmq_key is not defined, use sha256 to generate one
-            key_encoded = hashlib.sha256(f'{login}:{password}'.encode('utf-8')).digest()
-        # make sure key digits is right
-        self._aes_key = key_encoded[:key_digits]
+            # construct a variable complex certain string
+            # login, password, queue, compress, key_digits are same in both sides
+            key_string = f'khl.py://{login}:{password}/{queue}?&compress={compress}&key_digits={key_digits}'
+
+        if salt != '':
+            salt_encoded = salt.encode('utf-8')
+        else:
+            salt_encoded = b'rabbitmq in khl.py'
+
+        # use pbkdf2_hmac to generate key with key_digits
+        self._aes_key = hashlib.pbkdf2_hmac('sha256', key_string.encode('utf-8'), salt_encoded, 100000, dklen=key_digits)
+
     def decrypt(self, data: bytes) -> bytes:
         """ decrypt data
         :param data: encrypted byte array
