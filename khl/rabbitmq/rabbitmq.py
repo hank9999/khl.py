@@ -44,7 +44,13 @@ class RabbitMQ:
             salt_encoded = b'rabbitmq in khl.py'
 
         # use pbkdf2_hmac to generate key with key_digits
-        self._aes_key = hashlib.pbkdf2_hmac('sha256', key_string.encode('utf-8'), salt_encoded, 100000, dklen=key_digits)
+        self._aes_key = hashlib.pbkdf2_hmac(
+            'sha256',
+            key_string.encode('utf-8'),
+            salt_encoded,
+            100000,
+            dklen=key_digits
+        )
 
     def decrypt(self, data: bytes) -> bytes:
         """ decrypt data
